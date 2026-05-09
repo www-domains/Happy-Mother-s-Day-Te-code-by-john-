@@ -15,11 +15,10 @@
       --gold: #f0b943;
       --cream: #fff5f7;
       --text-dark: #2d1b2e;
-      --glow-shadow: 0 0 20px rgba(232, 83, 122, 0.6);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
+    body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--text-dark); overflow: hidden; }
 
     /* --- HERO SECTION --- */
     #hero {
@@ -31,63 +30,108 @@
       text-align: center;
       background: linear-gradient(135deg, #2d1b2e, #8b2252);
       color: white;
-      position: relative;
+      padding: 20px;
     }
 
-    .hero-title { font-family: 'Playfair Display', serif; font-size: 4rem; margin-bottom: 10px; text-shadow: var(--glow-shadow); }
-    .hero-subtitle { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--gold); }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 4rem); margin-bottom: 10px; text-shadow: 0 0 20px rgba(232, 83, 122, 0.6); }
+    .hero-subtitle { font-family: 'Dancing Script', cursive; font-size: clamp(1.5rem, 5vw, 2.2rem); color: var(--gold); }
+
+    /* --- CHALLENGE OVERLAY --- */
+    #challenge-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(45, 27, 46, 0.98);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .challenge-box { max-width: 500px; animation: fadeIn 0.8s ease; }
+    .challenge-box h2 { font-family: 'Dancing Script', cursive; font-size: 2.5rem; margin-bottom: 20px; color: var(--gold); }
+    
+    input[type="text"] {
+      padding: 15px 25px;
+      border-radius: 50px;
+      border: 2px solid transparent;
+      width: 100%;
+      font-size: 1.2rem;
+      text-align: center;
+      outline: none;
+      margin-bottom: 20px;
+      background: white;
+      color: var(--text-dark);
+      transition: 0.3s;
+    }
 
     /* --- THE GLOWING LETTER --- */
-    #letter-section { padding: 80px 20px; display: flex; justify-content: center; background: #fff5f7; }
-    
+    #letter-container {
+      display: none;
+      padding: 80px 20px;
+      flex-direction: column;
+      align-items: center;
+      background: var(--cream);
+      min-height: 100vh;
+      opacity: 0;
+      transition: opacity 1.5s ease-in;
+    }
+
     .letter-card {
-      max-width: 700px;
+      max-width: 750px;
       background: white;
-      padding: 50px;
-      border-radius: 30px;
-      box-shadow: 0 10px 50px rgba(232, 83, 122, 0.2);
-      border: 2px solid rgba(232, 83, 122, 0.1);
+      padding: clamp(30px, 5vw, 60px);
+      border-radius: 40px;
+      box-shadow: 0 0 40px rgba(232, 83, 122, 0.3);
+      border: 2px solid var(--rose);
       position: relative;
-      text-align: center;
-      animation: glowing-border 3s infinite alternate;
+      animation: glowingPulse 3s infinite alternate;
     }
 
-    @keyframes glowing-border {
-      from { box-shadow: 0 0 10px rgba(232, 83, 122, 0.2); border-color: rgba(232, 83, 122, 0.1); }
-      to { box-shadow: 0 0 30px rgba(232, 83, 122, 0.5); border-color: var(--rose); }
+    @keyframes glowingPulse {
+      from { box-shadow: 0 0 15px rgba(232, 83, 122, 0.2); border-color: rgba(232, 83, 122, 0.3); }
+      to { box-shadow: 0 0 45px rgba(232, 83, 122, 0.6); border-color: var(--rose); }
     }
 
-    .letter-content {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 1.2rem;
-      line-height: 2;
-      color: #4a334d;
-      text-align: left;
-    }
-
-    .letter-header { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--rose); margin-bottom: 25px; text-align: center; }
+    .letter-header { font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--rose); margin-bottom: 25px; text-align: center; }
+    .letter-content { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.25rem; line-height: 1.9; color: #4a334d; }
     .highlight { color: var(--rose-dark); font-weight: 700; border-bottom: 1px dashed var(--gold); }
-    .signature { margin-top: 30px; font-family: 'Dancing Script', cursive; font-size: 1.8rem; text-align: right; color: var(--rose); }
+    .signature { margin-top: 40px; font-family: 'Dancing Script', cursive; font-size: 2rem; text-align: right; color: var(--rose); }
 
-    /* --- GAME & GIFTS (SIMPLIFIED) --- */
-    .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 40px 0; }
-    .gifts-container { display: flex; justify-content: center; gap: 20px; padding-bottom: 50px; }
-    .gift-box { 
-        font-size: 3rem; cursor: pointer; padding: 20px; 
-        background: white; border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        transition: 0.3s;
+    /* --- BUTTONS --- */
+    .btn-action {
+      background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+      color: white;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(232, 83, 122, 0.4);
     }
-    .gift-box:hover { transform: scale(1.2) rotate(10deg); }
+    .btn-action:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(232, 83, 122, 0.6); }
 
-    /* --- MODAL --- */
-    .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 100; }
-    .modal { 
-        display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-        background: white; padding: 40px; border-radius: 20px; z-index: 101; text-align: center;
-        max-width: 80%; box-shadow: var(--glow-shadow);
+    /* --- FLOWER BOOM ANIMATION --- */
+    #animation-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
+    .flower-particle {
+        position: absolute;
+        font-size: 2.5rem;
+        pointer-events: none;
+        animation: flowerExplode 3s forwards ease-out;
     }
-    .btn { background: var(--rose); color: white; padding: 10px 25px; border: none; border-radius: 25px; cursor: pointer; margin-top: 20px; }
+
+    @keyframes flowerExplode {
+        0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+        100% { transform: translate(var(--x), var(--y)) scale(0) rotate(var(--r)); opacity: 0; }
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 
@@ -95,11 +139,26 @@
 
   <section id="hero">
     <h1 class="hero-title">Happy Mother's Day</h1>
-    <p class="hero-subtitle">A Special Tribute to My Dearest Aunt</p>
-    <a href="#letter-section" style="margin-top: 30px; color: white; text-decoration: none; border: 1px solid white; padding: 10px 20px; border-radius: 20px;">Read My Letter</a>
+    <p class="hero-subtitle">A special surprise for my dearest Aunt</p>
+    <button class="btn-action" style="margin-top: 40px;" onclick="openChallenge()">Read My Letter</button>
   </section>
 
-  <section id="letter-section">
+  <div id="challenge-overlay">
+    <div class="challenge-box">
+      <h2>A Quick Question...</h2>
+      <p style="margin-bottom: 25px; font-size: 1.3rem; line-height: 1.6;">
+        "What is the one thing you give us the most that makes our lives beautiful and supports all my dreams?"
+      </p>
+      <input type="text" id="answerInput" placeholder="Enter your answer here..." autofocus />
+      <br>
+      <button class="btn-action" onclick="checkAnswer()">Unlock My Surprise</button>
+      <p id="hint" style="margin-top: 20px; color: var(--gold); display: none; font-style: italic;">
+        Hint: It starts with the letter 'L' ❤️
+      </p>
+    </div>
+  </div>
+
+  <section id="letter-container">
     <div class="letter-card">
       <div class="letter-header">Dearest Aunt,</div>
       <div class="letter-content">
@@ -109,61 +168,87 @@
         <br><br>
         Your strength and grace make you the person I admire most. I pray for your <span class="highlight">good health and happiness</span> always, because you deserve the world for all the efforts you make for us.
         <br><br>
-        Thank you for everything, from the bottom of my heart.
+        Thank you so much for everything. You are truly appreciated.
       </div>
-      <div class="signature">With all my love and admiration, <br>Made by love your pag umangkon John ☺️😊💐</div>
+      <div class="signature">With all my love and admiration, <br> Made by love your pag umangkon John</div>
     </div>
   </section>
 
-  <h2 class="section-title">Open a Small Surprise</h2>
-  <div class="gifts-container">
-    <div class="gift-box" onclick="showGift('🌟', 'I promise to study hard and make you proud! Thank you for supporting my dreams.')">🎁</div>
-    <div class="gift-box" onclick="showGift('❤️', 'You are the heart of this family. We love you so much!')">🎁</div>
-    <div class="gift-box" onclick="showGift('🥂', 'To your good health! May you always stay strong and beautiful.')">🎁</div>
-  </div>
-
-  <div class="overlay" id="overlay" onclick="closeModal()"></div>
-  <div class="modal" id="modal">
-    <h1 id="modal-icon" style="font-size: 4rem;"></h1>
-    <p id="modal-text" style="font-size: 1.2rem; margin-top: 15px; font-style: italic;"></p>
-    <button class="btn" onclick="closeModal()">Close with a Smile</button>
-  </div>
+  <div id="animation-canvas"></div>
 
   <script>
-    function showGift(icon, text) {
-      document.getElementById('modal-icon').innerText = icon;
-      document.getElementById('modal-text').innerText = text;
-      document.getElementById('modal').style.display = 'block';
-      document.getElementById('overlay').style.display = 'block';
+    function openChallenge() {
+      document.getElementById('challenge-overlay').style.display = 'flex';
+      document.getElementById('answerInput').focus();
     }
 
-    function closeModal() {
-      document.getElementById('modal').style.display = 'none';
-      document.getElementById('overlay').style.display = 'none';
+    function checkAnswer() {
+      const input = document.getElementById('answerInput');
+      const ans = input.value.trim().toLowerCase();
+      
+      // The answer is "love"
+      if (ans === "love") {
+        createFlowerBoom();
+        setTimeout(revealLetter, 800);
+      } else {
+        document.getElementById('hint').style.display = 'block';
+        input.style.borderColor = "#ff4d4d";
+        input.animate([
+          { transform: 'translateX(-5px)' },
+          { transform: 'translateX(5px)' }
+        ], { duration: 100, iterations: 5 });
+      }
     }
 
-    // Add some floating hearts for extra "glow"
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.innerHTML = '❤️';
-      heart.style.position = 'fixed';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.top = '100vh';
-      heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-      heart.style.opacity = Math.random();
-      heart.style.transition = 'transform 5s linear, opacity 5s linear';
-      heart.style.pointerEvents = 'none';
-      heart.style.zIndex = '1';
-      document.body.appendChild(heart);
+    function createFlowerBoom() {
+      const canvas = document.getElementById('animation-canvas');
+      const particles = ['🌸', '🌹', '✨', '💖', '💐', '🌷', '🌺'];
+      
+      for (let i = 0; i < 60; i++) {
+        const p = document.createElement('div');
+        p.className = 'flower-particle';
+        p.innerText = particles[Math.floor(Math.random() * particles.length)];
+        
+        // Random spread for the "Boom"
+        const x = (Math.random() - 0.5) * window.innerWidth * 1.5 + 'px';
+        const y = (Math.random() - 0.5) * window.innerHeight * 1.5 + 'px';
+        const r = Math.random() * 1000 + 'deg';
+        
+        p.style.setProperty('--x', x);
+        p.style.setProperty('--y', y);
+        p.style.setProperty('--r', r);
+        p.style.left = '50%';
+        p.style.top = '50%';
+        
+        canvas.appendChild(p);
+        setTimeout(() => p.remove(), 3000);
+      }
+    }
 
+    function revealLetter() {
+      const overlay = document.getElementById('challenge-overlay');
+      const hero = document.getElementById('hero');
+      const letter = document.getElementById('letter-container');
+
+      overlay.style.transition = "opacity 0.8s ease";
+      overlay.style.opacity = '0';
+      
       setTimeout(() => {
-        heart.style.transform = `translateY(-110vh) rotate(${Math.random() * 360}deg)`;
-        heart.style.opacity = '0';
-      }, 100);
-
-      setTimeout(() => { heart.remove(); }, 6000);
+        overlay.style.display = 'none';
+        hero.style.display = 'none';
+        letter.style.display = 'flex';
+        document.body.style.overflow = 'auto'; // Allow scrolling the letter
+        
+        setTimeout(() => {
+          letter.style.opacity = '1';
+        }, 100);
+      }, 800);
     }
-    setInterval(createHeart, 500);
+
+    // Allow pressing "Enter" to submit
+    document.getElementById('answerInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') checkAnswer();
+    });
   </script>
 
 </body>
